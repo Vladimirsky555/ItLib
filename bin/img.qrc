@@ -1,0 +1,47 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/add1.png</file>
+        <file>images/close.png</file>
+        <file>images/delete.png</file>
+        <file>images/delete1.png</file>
+        <file>images/down.png</file>
+        <file>images/editor.png</file>
+        <file>images/export.png</file>
+        <file>images/export1.png</file>
+        <file>images/export2.png</file>
+        <file>images/font.png</file>
+        <file>images/information.png</file>
+        <file>images/insert-inside.png</file>
+        <file>images/ok1.png</file>
+        <file>images/ok2.png</file>
+        <file>images/save.jpg</file>
+        <file>images/save-text.png</file>
+        <file>images/search.png</file>
+        <file>images/search_big.png</file>
+        <file>images/search_small.png</file>
+        <file>images/up.png</file>
+        <file>images/coding.png</file>
+        <file>images/cplusplus.png</file>
+        <file>images/java-script.png</file>
+        <file>images/mysql.png</file>
+        <file>images/programming.png</file>
+        <file>images/lesson.png</file>
+        <file>images/insert-at-the-end.png</file>
+        <file>images/insert-in-the-front.png</file>
+        <file>images/edit.png</file>
+        <file>images/clear.png</file>
+        <file>images/json.png</file>
+        <file>images/ex.png</file>
+        <file>images/video-camera.png</file>
+        <file>images/progr.png</file>
+        <file>images/course.png</file>
+        <file>images/lesson_book.png</file>
+        <file>images/info.png</file>
+        <file>images/c.png</file>
+        <file>images/csharp.png</file>
+        <file>images/python.png</file>
+        <file>images/cplusplus_2.png</file>
+        <file>images/java.png</file>
+        <file>images/sql.png</file>
+    </qresource>
+</RCC>
