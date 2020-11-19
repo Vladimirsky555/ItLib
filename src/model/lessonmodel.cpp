@@ -320,16 +320,18 @@ QVariant LessonModel::dataBackground(const QModelIndex &I) const
         result = QColor(32, 178, 170);
     } else if(item->lanName() == "JavaScript"){
         result = QColor(255, 255, 0);
+    } else if(item->lanName() == "C#"){
+        result = QColor(189, 183, 107);
+    } else if(item->lanName() == "Python"){
+        result = QColor(255, 222, 173);
+    } else if(item->lanName() == "PHP"){
+        result = QColor(240, 255, 255);
     } else {
         result = QColor("white");
     }
 
     result.setAlphaF(0.2);
     return result;
-
-    //QColor(189, 183, 107);
-    // QColor(255, 222, 173);
-    //QColor(240, 255, 255);
 }
 
 //Устанавливаем в модель данные по результатам поиска
