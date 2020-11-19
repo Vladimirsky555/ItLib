@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QJsonObject>
 
 #include "data/storage.h"
 #include "editor/editor.h"
@@ -23,6 +24,7 @@ class MainWindow : public QMainWindow
      Course* currentCourse;
      Lesson* currentLesson;
      bool click;
+     QJsonObject currentJsonObject;
 
      //для поиска
      QString pattern;
@@ -43,6 +45,7 @@ private slots:
     void on_tableView_doubleClicked(const QModelIndex &index);
     void on_edtPattern_textChanged(const QString &str);
     void on_btnFont_clicked();
+    void ExportToJSON();
     //Клики по полю
     void on_lstCourses_clicked(const QModelIndex &index);
     void on_tableView_clicked(const QModelIndex &index);

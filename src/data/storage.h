@@ -24,10 +24,7 @@ public:
     void loadData();
     void saveData();
 
-    //Заполняем модель для вывода в табличное представление
-    void fillLessonModel();
-    QList<Data*>getItems();//для установки в модель
-
+    //Иерархическая модель
     LanItem* getLanById(int id);
     LanItem* getLanByName(QString name);
     QList<LanItem*> LanItems();
@@ -43,6 +40,13 @@ public:
     void insertData(QString source, QString newItem);
     void insertDataAtEnd(QString newItem);
     void replaceItem(int, LanItem *item);
+
+    //Табличная модель
+    int getDataCount();
+    Data* getDataById(int id);
+    void fillLessonModel();//Заполняем модель для вывода в табличное представление
+    QList<Data*>getItems();//для установки в модель
+
 };
 
 #endif // STORAGE_H

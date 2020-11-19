@@ -149,6 +149,23 @@ p, li { white-space: pre-wrap; }
        </spacer>
       </item>
       <item>
+       <widget class="QToolButton" name="btnExportToJSON">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normalon>:/images/json.png</normalon>
+         </iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="btnFont">
         <property name="font">
          <font>
@@ -260,6 +277,18 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionExportToJSON">
+   <property name="icon">
+    <iconset resource="../../bin/img.qrc">
+     <normaloff>:/images/json.png</normaloff>:/images/json.png</iconset>
+   </property>
+   <property name="text">
+    <string>ExportToJSON</string>
+   </property>
+   <property name="toolTip">
+    <string>Экспорт в JSON</string>
    </property>
   </action>
  </widget>

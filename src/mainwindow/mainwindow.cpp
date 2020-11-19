@@ -1,11 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QDebug>
 #include <QDesktopServices>
-#include <QMessageBox>
 #include <QUrl>
+#include <QMessageBox>
 #include <QFontDialog>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QFile>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -34,6 +39,12 @@ MainWindow::MainWindow(QWidget *parent) :
     highlighter = new RegexpHighlighter(this);
     highlighter->setDocument(ui->edtText->document());
     highlighter->setPattern(ui->edtPattern->text());
+
+    //Кнопка для экспорта в JSON
+    ui->btnExportToJSON->setDefaultAction(ui->actionExportToJSON);//привязали к toolbutton
+    connect(ui->actionExportToJSON, SIGNAL(triggered()),this, SLOT(ExportToJSON()));
+    QPixmap pExp(":/images/json.png");
+    ui->actionExportToJSON->setIcon(QIcon(pExp));
 
     click = false;
 }
@@ -102,9 +113,6 @@ void MainWindow::createUI()
     ui->tableView->setContextMenuPolicy(Qt::ActionsContextMenu);
 }
 
-
-
-
 void MainWindow::on_cbxLan_currentIndexChanged(int index)
 {
     ui->lstCourses->clear();
@@ -119,7 +127,6 @@ void MainWindow::on_lstCourses_clicked(const QModelIndex &index)
 {
     click = false;
     currentCourse = currentLan->getCourse(index.row());
-
 
     //Передаём список в модель для отражения в представлении
     QList<Lesson*> lessons = currentCourse->getLessons();
@@ -202,5 +209,46 @@ void MainWindow::on_btnFont_clicked()
         }
     } else {
             QMessageBox::information(this,"Сообщение","Шрифт не выбран!");
-        }
     }
+}
+
+//Экспорт в JSON
+void MainWindow::ExportToJSON()
+{
+    QJsonObject textObject;
+
+    for(int i = 0; i < s->getDataCount(); i++){
+        Data* item = s->getDataById(i);
+
+        textObject["lan_name"] = item->lanName();
+        textObject["course_name"] = item->courseName();
+        textObject["course_link"] = item->courseLink();
+        textObject["course_info"] = item->courseInfo();
+        textObject["lesson_date"] = item->lessonDate().toString("dd.MM.yyyy");
+        textObject["lesson_name"] = item->lessonName();
+        textObject["lesson_link"] = item->lessonLink();
+        textObject["lesson_info"] = item->lessonInfo();
+
+        QJsonArray textsArray = currentJsonObject["list"].toArray();
+        textsArray.append(textObject);
+        currentJsonObject["list"] = textsArray;
+    }
+
+    // С помощью диалогового окна получаем имя файла с абсолютным путём
+       QString saveFileName = QFileDialog::getSaveFileName(this,
+                                                           tr("Save Json File"),
+                                                           QString(),
+                                                           tr("JSON (*.json)"));
+       QFileInfo fileInfo(saveFileName);   // С помощью QFileInfo
+       QDir::setCurrent(fileInfo.path());  // установим текущую рабочую директорию, где будет файл, иначе может не заработать
+       // Создаём объект файла и открываем его на запись
+       QFile jsonFile(saveFileName);
+       if (!jsonFile.open(QIODevice::WriteOnly))
+       {
+           return;
+       }
+
+       // Записываем текущий объект Json в файл
+       jsonFile.write(QJsonDocument(currentJsonObject).toJson(QJsonDocument::Indented));
+       jsonFile.close();   // Закрываем файл
+}

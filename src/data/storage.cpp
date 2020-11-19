@@ -134,7 +134,20 @@ void Storage::replaceItem(int id, LanItem *item)
 
 int Storage::getCount()
 {
-  return lans.count();
+    return lans.count();
+}
+
+int Storage::getDataCount()
+{
+    return items.count();
+}
+
+Data *Storage::getDataById(int id)
+{
+    if(id < items.count()){
+        return items.at(id);
+    }
+    return NULL;
 }
 
 void Storage::deleteLanByObj(LanItem *item)
