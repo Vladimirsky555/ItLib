@@ -9,7 +9,6 @@ Dialog::Dialog(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Добавление/Вставка/Переименование");
-
     this->name = "";
 }
 

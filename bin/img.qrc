@@ -43,5 +43,6 @@
         <file>images/cplusplus_2.png</file>
         <file>images/java.png</file>
         <file>images/sql.png</file>
+        <file>images/php.png</file>
     </qresource>
 </RCC>

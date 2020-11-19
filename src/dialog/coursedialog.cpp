@@ -10,12 +10,6 @@ CourseDialog::CourseDialog(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle("Добавить курс");
 
-//   setWindowFlags(Qt::Window
-//        | Qt::WindowMinimizeButtonHint
-//        | Qt::WindowMaximizeButtonHint
-//        | Qt::CustomizeWindowHint);
-
-
     this->_name = "";
     this->_link = "";
     this->_courseInfo = "";

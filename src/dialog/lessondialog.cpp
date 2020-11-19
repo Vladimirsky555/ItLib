@@ -8,6 +8,7 @@ LessonDialog::LessonDialog(QWidget *parent) :
     ui(new Ui::LessonDialog)
 {
     ui->setupUi(this);
+    setWindowTitle("Добавление урока");
     ui->edtLink->setText("https://youtu.be/");
     ui->dateEdit->setDate(QDate::currentDate());
 }

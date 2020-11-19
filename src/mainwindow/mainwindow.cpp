@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowTitle("Библиотека курсов");
+    setWindowTitle("Библиотека видеокурсов");
     s = new Storage();
 
     currentLan = NULL;
@@ -47,6 +47,11 @@ void MainWindow::refreshLans()
 {
     ui->cbxLan->clear();
     ui->cbxLan->addItems(s->getList());
+
+//    for(int i = 0; i < s->getCount(); i++)
+//    {
+//        ui->cbxLan->addItem(QIcon(":/images/cplusplus_2.png"), s->getLanById(i)->Name());
+//    }
 }
 
 void MainWindow::refreshCourses()
@@ -71,6 +76,8 @@ void MainWindow::refreshCourses()
                 ui->lstCourses->item(i)->setIcon(QIcon(":/images/sql.png"));
             } else if(currentLan->Name() == "Java"){
                 ui->lstCourses->item(i)->setIcon(QIcon(":/images/java.png"));
+            }  else if(currentLan->Name() == "PHP"){
+                ui->lstCourses->item(i)->setIcon(QIcon(":/images/php.png"));
             }  else {
                 ui->lstCourses->item(i)->setIcon(QIcon(":/images/coding.png"));
             }
