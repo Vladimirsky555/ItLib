@@ -12,11 +12,14 @@ class Storage : public QObject
     Q_OBJECT
 
     QList<LanItem*> lans;//элементы иерархической самопальной модели
+    QString path;//Путь к серверу для скачивания при первом запуске
     QList<Data*> items;//элементы табличной линейной модели
 
     LanItem *currentLan;
     Course *currentCourse;
     Lesson *currentLesson;
+
+
 
 public:
     Storage(QObject *parent = 0);
@@ -24,6 +27,9 @@ public:
     //Загрузка и сохранение в файл
     void loadData();
     void saveData();
+
+    QString getPath();
+    void setPath(QString path);//Передайм путь к серверу, установив его в основном окне
 
     //Иерархическая модель
     LanItem* getLanById(int id);

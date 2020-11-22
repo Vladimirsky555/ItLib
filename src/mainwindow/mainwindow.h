@@ -55,7 +55,10 @@ private slots:
     void on_tableView_doubleClicked(const QModelIndex &index);
     void on_edtPattern_textChanged(const QString &str);
     void on_btnFont_clicked();
+
+
     void ExportToJSON();
+    void setPathToJSONfile();
 
     //Клики по полю
     void on_lstCourses_clicked(const QModelIndex &index);

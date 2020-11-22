@@ -27,7 +27,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Язык программирования</string>
+        <string>Название элемента</string>
        </property>
       </widget>
      </item>

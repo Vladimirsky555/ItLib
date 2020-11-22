@@ -157,6 +157,29 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item>
+       <widget class="QToolButton" name="btnSetPathtoJSONfile">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normalon>:/images/path.png</normalon>
+         </iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>23</width>
+          <height>23</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="btnFont">
         <property name="font">
          <font>
@@ -280,6 +303,18 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>Экспорт в JSON</string>
+   </property>
+  </action>
+  <action name="actionSetPathtoJSONfile">
+   <property name="icon">
+    <iconset resource="../../bin/img.qrc">
+     <normaloff>:/images/path.png</normaloff>:/images/path.png</iconset>
+   </property>
+   <property name="text">
+    <string>SetPathtoJSONfile</string>
+   </property>
+   <property name="toolTip">
+    <string>Путь к серверу </string>
    </property>
   </action>
  </widget>

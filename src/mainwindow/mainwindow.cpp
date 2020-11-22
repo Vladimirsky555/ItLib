@@ -15,6 +15,8 @@
 #include <QFile>
 #include <QDebug>
 
+#include "dialog/dialog.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -36,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Считываем данные в табличную модель с сервера, если никаких данных нет
     if(s->getDataCount() == 0){
         //Initialize our API data
-        const QUrl API_ENDPOINT("http://vladimir-bervin.myjino.ru/var/it.json");
+        const QUrl API_ENDPOINT(s->getPath());
         //    const QUrl API_ENDPOINT("http://hoondok.ru/ss.json");
         QNetworkRequest request;
         request.setUrl(API_ENDPOINT);
@@ -65,8 +67,13 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap pExp(":/images/json.png");
     ui->actionExportToJSON->setIcon(QIcon(pExp));
 
-    click = false;
+    //Кнопка для добавления своего пути к серверу для скачивания данных при первом запуске
+    ui->btnSetPathtoJSONfile->setDefaultAction(ui->actionSetPathtoJSONfile);//привязали к toolbutton
+    connect(ui->actionSetPathtoJSONfile, SIGNAL(triggered()),this, SLOT(setPathToJSONfile()));
+    QPixmap p(":/images/path.png");
+    ui->actionSetPathtoJSONfile->setIcon(QIcon(p));
 
+    click = false;
 }
 
 MainWindow::~MainWindow()
@@ -335,4 +342,24 @@ void MainWindow::ExportToJSON()
        // Записываем текущий объект Json в файл
        jsonFile.write(QJsonDocument(currentJsonObject).toJson(QJsonDocument::Indented));
        jsonFile.close();   // Закрываем файл
+}
+
+void MainWindow::setPathToJSONfile()
+{
+    QString path;//Путь к серверу для скачивания данных при первом запуске
+    Dialog d;
+    d.exec();
+
+    if (d.getName() == "")
+    {
+        QMessageBox::information(this, "Информация", "Файл не может быть пустым!");
+        path = "http://vladimir-bervin.myjino.ru/var/it.json";
+        s->setPath(path);
+        s->saveData();
+        return;
+    }
+
+    path = d.getName();
+    s->setPath(path);
+    s->saveData();
 }

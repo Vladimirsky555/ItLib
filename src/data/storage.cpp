@@ -15,6 +15,8 @@ void Storage::loadData()
     f.open(QFile::ReadOnly);
     QDataStream reader(&f);
 
+     reader >> this->path;
+
     while(!reader.atEnd()){
         QByteArray arr;
         reader >> arr;
@@ -30,12 +32,25 @@ void Storage::saveData()
     f.open(QFile::WriteOnly | QFile::Truncate);
     QDataStream str(&f);
 
+    str << this->path;
+
     for(int i = 0; i < lans.count(); i++)
     {
         str << lans.at(i)->saveIt();
     }
 
     f.close();
+}
+
+QString Storage::getPath()
+{
+    qDebug() << path;
+    return this->path;
+}
+
+void Storage::setPath(QString path)
+{
+    this->path = path;
 }
 
 void Storage::fillLessonModel()
