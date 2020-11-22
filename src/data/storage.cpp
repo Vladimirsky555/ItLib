@@ -13,13 +13,11 @@ void Storage::loadData()
     if(!f.exists()) return;
 
     f.open(QFile::ReadOnly);
-    QDataStream reader(&f);
+    QDataStream str(&f);
 
-     reader >> this->path;
-
-    while(!reader.atEnd()){
+    while(!str.atEnd()){
         QByteArray arr;
-        reader >> arr;
+        str >> arr;
         addLanItem(new LanItem(arr));
     }
 
@@ -32,8 +30,6 @@ void Storage::saveData()
     f.open(QFile::WriteOnly | QFile::Truncate);
     QDataStream str(&f);
 
-    str << this->path;
-
     for(int i = 0; i < lans.count(); i++)
     {
         str << lans.at(i)->saveIt();
@@ -42,15 +38,34 @@ void Storage::saveData()
     f.close();
 }
 
+void Storage::loadPath()
+{
+    QFile f("path.db");
+    if(!f.exists()) return;
+    f.open(QFile::ReadOnly);
+    QDataStream str(&f);
+    str >> this->path;
+    f.close();
+}
+
+void Storage::savePath()
+{
+    QFile f("path.db");
+    f.open(QFile::WriteOnly | QFile::Truncate);
+    QDataStream str(&f);
+    str << this->path;
+    f.close();
+}
+
 QString Storage::getPath()
 {
-    qDebug() << path;
     return this->path;
 }
 
 void Storage::setPath(QString path)
 {
     this->path = path;
+    savePath();
 }
 
 void Storage::fillLessonModel()

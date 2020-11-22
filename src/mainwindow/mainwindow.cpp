@@ -33,12 +33,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     s->loadData();//в свою модель
+    s->loadPath();//загружаем пользовательский путь к серверу, если он существует
     s->fillLessonModel();//в таблицу для поиска
 
     //Считываем данные в табличную модель с сервера, если никаких данных нет
     if(s->getDataCount() == 0){
+
+        QString path = s->getPath();
+        if(path == ""){
+            path = "http://vladimir-bervin.myjino.ru/it/it.json";
+        } else {
+            path = s->getPath();
+        }
+
+        qDebug() << path << s->getPath();
+
         //Initialize our API data
-        const QUrl API_ENDPOINT(s->getPath());
+        const QUrl API_ENDPOINT(path);
         //    const QUrl API_ENDPOINT("http://hoondok.ru/ss.json");
         QNetworkRequest request;
         request.setUrl(API_ENDPOINT);
@@ -344,23 +355,21 @@ void MainWindow::ExportToJSON()
        jsonFile.close();   // Закрываем файл
 }
 
+//Устанавиваем путь к серверу с нашими данными
 void MainWindow::setPathToJSONfile()
 {
-    QString path;//Путь к серверу для скачивания данных при первом запуске
     Dialog d;
     d.setEdit(false);
     d.exec();
 
     if (d.getName() == "")
     {
-        QMessageBox::information(this, "Информация", "Файл не может быть пустым!");
-        path = "http://vladimir-bervin.myjino.ru/it/it.json";
-        s->setPath(path);
-        s->saveData();
+        QMessageBox::information(this, "Информация",
+                                 "Файл не может быть пустым!");
         return;
     }
 
-    path = d.getName();
-    s->setPath(path);
-    s->saveData();
+    s->setPath(d.getName());
 }
+
+

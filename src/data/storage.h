@@ -19,14 +19,14 @@ class Storage : public QObject
     Course *currentCourse;
     Lesson *currentLesson;
 
-
-
 public:
     Storage(QObject *parent = 0);
 
     //Загрузка и сохранение в файл
     void loadData();
     void saveData();
+    void loadPath();
+    void savePath();
 
     QString getPath();
     void setPath(QString path);//Передайм путь к серверу, установив его в основном окне

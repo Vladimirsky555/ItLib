@@ -27,7 +27,7 @@ void JsonWorker::run()
     D->setCourseName(map["course_name"].toString());
     D->setCourseLink(map["course_link"].toString());
     D->setCourseInfo(map["course_info"].toString());
-    D->setLessonDate(Date.fromString(map["lesson_date"].toString(), "yyyy.MM.dd"));
+    D->setLessonDate(Date.fromString(map["lesson_date"].toString(), "dd.MM.yyyy"));
     D->setLessonName(map["lesson_name"].toString());
     D->setLessonLink(map["lesson_link"].toString());
     D->setLessonInfo(map["lesson_info"].toString());
