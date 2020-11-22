@@ -2,7 +2,7 @@
 # Project created by QtCreator 2020-11-13T22:36:51
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui  network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     src\search\searchwindow.cpp \
     src\data\data.cpp \
     src\search\showinfo.cpp \
-    src\helpers\regexphighlighter.cpp
+    src\helpers\regexphighlighter.cpp \
+    src\mainwindow\jsonworker.cpp
 
 HEADERS  += src\mainwindow\mainwindow.h \
     src\data\lesson.h \
@@ -49,7 +50,8 @@ HEADERS  += src\mainwindow\mainwindow.h \
     src\search\searchwindow.h \
     src\data\data.h \
     src\search\showinfo.h \
-    src\helpers\regexphighlighter.h
+    src\helpers\regexphighlighter.h \
+    src\mainwindow\jsonworker.h
 
 FORMS    += src\mainwindow\mainwindow.ui \
     src\editor\editor.ui \

@@ -82,7 +82,6 @@ void CourseModel::setCourseLink(QString link)
 
 void CourseModel::show_course()
 {
-    Lesson *lesson = getLesson(currentIndex);
     if(currentIndex.row() == -1){
         QMessageBox::information(NULL, "Информация",
                                  "Чтобы просмотреть видеозапись, "
@@ -173,7 +172,7 @@ QVariant CourseModel::headerData(int section, Qt::Orientation orientation, int r
     }
 }
 
-Qt::ItemFlags CourseModel::flags(const QModelIndex &index) const
+Qt::ItemFlags CourseModel::flags(const QModelIndex &) const
 {
     return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }

@@ -73,6 +73,7 @@ QList<Data *> Storage::getItems()
     return this->items;
 }
 
+
 LanItem *Storage::getLanById(int id)
 {
     if(id < lans.count()){
@@ -100,6 +101,39 @@ void Storage::addLanItem(LanItem *item)
 {
     if(item != NULL)
         lans.push_back(item);
+}
+
+void Storage::restoreDataFromModel()
+{
+    for(int i =0; i < items.count(); i++)
+    {
+        if(!lanExist(items.at(i)->lanName())){
+            LanItem *li = new LanItem(items.at(i)->lanName());
+            addLanItem(li);
+        } else {
+            LanItem *li = getLanByName(items.at(i)->lanName());
+
+            if(!li->courseExist(items.at(i)->courseName())){
+                Course *ci = new Course(items.at(i)->courseName(),
+                                        items.at(i)->courseLink(),
+                                        items.at(i)->courseInfo());
+                li->addCourse(ci);
+            } else {
+                Course *ci = li->getcourseByName(items.at(i)->courseName());
+
+                if(!ci->lessonExist(items.at(i)->lessonName())){
+                    Lesson *l = new Lesson(items.at(i)->lessonDate(),
+                                           items.at(i)->lessonName(),
+                                           items.at(i)->lessonLink(),
+                                           items.at(i)->lessonInfo());
+                    ci->addLesson(l);
+                }
+//                else {
+//                    Lesson *l = ci->getLessonByName(items.at(i)->lessonName());
+//                }
+            }
+        }
+    }
 }
 
 void Storage::insertDataFirst(QString newItem)
@@ -130,6 +164,23 @@ void Storage::insertDataAtEnd(QString newItem)
 void Storage::replaceItem(int id, LanItem *item)
 {
     lans.replace(id, item);
+}
+
+bool Storage::lanExist(QString name)
+{
+    for(int i = 0; i < lans.count(); i++)
+    {
+        if(lans.at(i)->Name() == name)
+            return true;
+    }
+
+    return false;
+}
+
+void Storage::addModelItem(Data *item)
+{
+    if(item != NULL)
+        items.push_back(item);
 }
 
 int Storage::getCount()

@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+
 #include "lanitem.h"
 #include "data.h"
 
@@ -36,16 +37,20 @@ public:
 
     //Admin
     void addLanItem(LanItem *item);
+    void restoreDataFromModel();//Функция для трансформации данных, полученных с сервера
     void insertDataFirst(QString newItem);
     void insertData(QString source, QString newItem);
     void insertDataAtEnd(QString newItem);
     void replaceItem(int, LanItem *item);
+    bool lanExist(QString name);//для трансформации из данных сервера
 
     //Табличная модель
+    void addModelItem(Data *item);//При считывании с сервера
     int getDataCount();
     Data* getDataById(int id);
     void fillLessonModel();//Заполняем модель для вывода в табличное представление
     QList<Data*>getItems();//для установки в модель
+
 
 };
 

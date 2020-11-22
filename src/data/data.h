@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDate>
 
+//Данные для списочной модели для поиска
 class Data : public QObject
 {
     Q_OBJECT

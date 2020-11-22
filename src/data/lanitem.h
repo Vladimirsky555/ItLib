@@ -34,6 +34,7 @@ public:
     void insertDataFirst(QString newCourse, QString newLink, QString newInfo);
     void insertData(QString source, QString newCourse, QString newLink, QString newInfo);
     void insertDataAtEnd(QString newCourse, QString newLink, QString newInfo);
+    bool courseExist(QString name);
 
 };
 

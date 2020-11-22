@@ -7,6 +7,9 @@
 #include <QFontDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QVariantMap>
+#include <QThreadPool>
+#include <QMutex>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QFile>
@@ -14,7 +17,9 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    mNetManager(new QNetworkAccessManager(this)),
+    mNetReply(NULL)
 {
     ui->setupUi(this);
     setWindowTitle("Библиотека видеокурсов");
@@ -24,8 +29,22 @@ MainWindow::MainWindow(QWidget *parent) :
     currentCourse = NULL;
     currentLesson = NULL;
 
+
     s->loadData();//в свою модель
     s->fillLessonModel();//в таблицу для поиска
+
+    //Считываем данные в табличную модель с сервера, если никаких данных нет
+    if(s->getDataCount() == 0){
+        //Initialize our API data
+        const QUrl API_ENDPOINT("http://vladimir-bervin.myjino.ru/var/it.json");
+        //    const QUrl API_ENDPOINT("http://hoondok.ru/ss.json");
+        QNetworkRequest request;
+        request.setUrl(API_ENDPOINT);
+
+        mNetReply = mNetManager->get(request);
+        connect(mNetReply,&QIODevice::readyRead,this,&MainWindow::dataReadyRead);
+        connect(mNetReply,&QNetworkReply::finished,this,&MainWindow::dataReadFinished);
+    }
 
     ui->cbxLan->addItems(s->getList());
 
@@ -47,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionExportToJSON->setIcon(QIcon(pExp));
 
     click = false;
+
 }
 
 MainWindow::~MainWindow()
@@ -113,14 +133,43 @@ void MainWindow::createUI()
     ui->tableView->setContextMenuPolicy(Qt::ActionsContextMenu);
 }
 
+//Заполняем нашу иерархическую модель из данных, полученных с сервера
+//то есть списочной модели для поиска
+void MainWindow::restoreDataFromModel()
+{
+    for(int i =0; i < s->getDataCount(); i++)
+    {
+        if(!s->lanExist(s->getDataById(i)->lanName())){
+            currentLan = new LanItem(s->getDataById(i)->lanName());
+            s->addLanItem(currentLan);
+        } else {
+            currentLan = s->getLanByName(s->getDataById(i)->lanName());
+
+            if(!currentLan->courseExist(s->getDataById(i)->courseName())){
+                currentCourse = new Course(s->getDataById(i)->courseName(),
+                                        s->getDataById(i)->courseLink(),
+                                        s->getDataById(i)->courseInfo());
+                currentLan->addCourse(currentCourse);
+            } else {
+                currentCourse = currentLan->getcourseByName(s->getDataById(i)->courseName());
+
+                if(!currentCourse->lessonExist(s->getDataById(i)->lessonName())){
+                    currentLesson = new Lesson(s->getDataById(i)->lessonDate(),
+                                           s->getDataById(i)->lessonName(),
+                                           s->getDataById(i)->lessonLink(),
+                                           s->getDataById(i)->lessonInfo());
+                    currentCourse->addLesson(currentLesson);
+                }
+            }
+        }
+    }
+}
+
 void MainWindow::on_cbxLan_currentIndexChanged(int index)
 {
     ui->lstCourses->clear();
     currentLan = s->getLanById(index);
     refreshCourses();
-
-//    M->clearLessons();
-//    M->selectAll();
 }
 
 void MainWindow::on_lstCourses_clicked(const QModelIndex &index)
@@ -142,6 +191,42 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
     emit sendIndextoModel(index);
     currentLesson = currentCourse->getLesson(index.row());
     ui->edtText->setHtml(currentLesson->lessonInfo());
+}
+
+void MainWindow::dataReadyRead()
+{
+    arr.append(mNetReply->readAll());
+}
+
+void MainWindow::dataReadFinished()
+{
+    if( mNetReply->error())
+    {
+        qDebug() << "Error : " << mNetReply->errorString();
+    }else
+    {
+       QJsonDocument doc = QJsonDocument::fromJson(arr);
+       QJsonArray array = doc.array();
+       QThreadPool* pool = QThreadPool::globalInstance();
+       QMutex mutex(QMutex::Recursive);
+
+       for (int i = 0; i < array.size(); i++)
+       {
+           QJsonObject object = array.at(i).toObject();
+
+           JsonWorker* jw = new JsonWorker(s, object, &mutex, nullptr);
+           jw->setAutoDelete(true);
+           pool->start(jw);
+       }
+
+       pool->waitForDone();
+    }
+
+    //C сервера получаем только линейные данные табличной модели
+    //Их необходимо трансформировать в нашу иерархическую
+    restoreDataFromModel();
+    ui->cbxLan->addItems(s->getList());//Выводим список языков программирования
+    s->saveData();//Сохраняем данные в файл на будущее
 }
 
 void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
@@ -170,7 +255,6 @@ void MainWindow::on_actionEditor_triggered()
 //Открытие виджета для поиска по всей базе в табличном линейном виде
 void MainWindow::on_actionSearch_triggered()
 {
-
     SearchWindow *sw = new SearchWindow(s);
     connect(this, SIGNAL(shutdown()), sw, SLOT(shutdown()));
     sw->show();

@@ -100,6 +100,17 @@ void LanItem::insertDataAtEnd(QString newCourse, QString newLink, QString newInf
     courses.push_back(ci);
 }
 
+bool LanItem::courseExist(QString name)
+{
+    for(int i =0; i < courses.count(); i++)
+    {
+        if(courses.at(i)->Name() == name)
+            return true;
+    }
+
+    return false;
+}
+
 int LanItem::getCoursesCount()
 {
     return courses.count();

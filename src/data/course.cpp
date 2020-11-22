@@ -126,6 +126,16 @@ void Course::insertDataAtEnd(QDate date, QString lesson, QString link, QString i
     lessons.push_back(li);
 }
 
+bool Course::lessonExist(QString name)
+{
+    for(int i = 0; i < lessons.count(); i++){
+        if(lessons.at(i)->Name() == name)
+            return true;
+    }
+
+    return false;
+}
+
 
 int Course::getLessonCount()
 {

@@ -42,6 +42,7 @@ public:
     void insertDataFirst(QDate date, QString lesson, QString link, QString info);
     void insertData(QString source, QDate date, QString lesson, QString link, QString info);
     void insertDataAtEnd(QDate date, QString lesson, QString link, QString info);
+    bool lessonExist(QString name);
 
 };
 
