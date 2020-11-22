@@ -348,12 +348,13 @@ void MainWindow::setPathToJSONfile()
 {
     QString path;//Путь к серверу для скачивания данных при первом запуске
     Dialog d;
+    d.setEdit(false);
     d.exec();
 
     if (d.getName() == "")
     {
         QMessageBox::information(this, "Информация", "Файл не может быть пустым!");
-        path = "http://vladimir-bervin.myjino.ru/var/it.json";
+        path = "http://vladimir-bervin.myjino.ru/it/it.json";
         s->setPath(path);
         s->saveData();
         return;

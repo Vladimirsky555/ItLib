@@ -8,7 +8,7 @@ Dialog::Dialog(QWidget *parent) :
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
-    setWindowTitle("Добавление/Вставка/Переименование");
+
     this->name = "";
 }
 
@@ -25,6 +25,19 @@ QString Dialog::getName()
 void Dialog::setName(QString name)
 {
     ui->edtName->setText(name);
+}
+
+void Dialog::setEdit(bool flag)
+{
+    this->edit = flag;
+
+    if(edit){
+        setWindowTitle("Добавление/Вставка/Переименование");
+        ui->label->setText("Язык программирования/Фреймворк");
+    } else {
+        setWindowTitle("Установление пути для скачивания базы");
+        ui->label->setText("Путь для скачивания базы");
+    }
 }
 
 void Dialog::on_btnCancel_clicked()

@@ -12,6 +12,7 @@ class Dialog : public QDialog
     Q_OBJECT
 
     QString name;
+    bool edit;
 
 public:
     explicit Dialog(QWidget *parent = 0);
@@ -19,6 +20,7 @@ public:
 
     QString getName();
     void setName(QString name);
+    void setEdit(bool flag);
 
 private slots:
     void on_btnCancel_clicked();

@@ -27,7 +27,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Название элемента</string>
+        <string/>
        </property>
       </widget>
      </item>

@@ -353,6 +353,7 @@ void Editor::lan_Down()
 void Editor::lan_Insert_First()
 {
     Dialog ld;
+    ld.setEdit(true);
     ld.exec();
 
     if (ld.getName() == "")
@@ -371,6 +372,7 @@ void Editor::lan_Insert()
     if(currentLan == NULL) return;
 
     Dialog ld;
+    ld.setEdit(true);
     ld.exec();
 
     if (ld.getName() == "") {
@@ -385,6 +387,7 @@ void Editor::lan_Insert()
 void Editor::lan_Insert_End()
 {
     Dialog ld;
+    ld.setEdit(true);
     ld.exec();
 
     if (ld.getName() == "") {
