@@ -655,9 +655,8 @@ void Editor::on_lstLans_clicked(const QModelIndex &index)
     currentLan = s->getLanById(id);
 
     ui->lstCourses->setEnabled(true);
-    ui->lstLessons->setEnabled(true);
-    ui->edtInfo->setEnabled(true);
-
+    ui->lstLessons->setEnabled(false);
+    ui->edtInfo->setEnabled(false);
     refreshCourses();
 }
 

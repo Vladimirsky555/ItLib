@@ -46,8 +46,6 @@ MainWindow::MainWindow(QWidget *parent) :
             path = s->getPath();
         }
 
-        qDebug() << path << s->getPath();
-
         //Initialize our API data
         const QUrl API_ENDPOINT(path);
         //    const QUrl API_ENDPOINT("http://hoondok.ru/ss.json");
