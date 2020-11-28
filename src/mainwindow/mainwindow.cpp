@@ -49,7 +49,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
         //Initialize our API data
         const QUrl API_ENDPOINT(path);
-        //    const QUrl API_ENDPOINT("http://hoondok.ru/ss.json");
         QNetworkRequest request;
         request.setUrl(API_ENDPOINT);
 
