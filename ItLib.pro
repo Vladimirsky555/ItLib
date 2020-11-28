@@ -18,7 +18,7 @@ QMAKE_TARGET_COPYRIGHT = BearWin
 INCLUDEPATH += $${_PRO_FILE_PWD_}/src
 win32: RC_ICONS = $$PWD/bin/images/app.ico
 
-SOURCES += main.cpp\
+SOURCES += src\main.cpp\
         src\mainwindow\mainwindow.cpp \
     src\data\lesson.cpp \
     src\data\course.cpp \
