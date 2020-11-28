@@ -9,7 +9,6 @@ LessonDialog::LessonDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Добавление урока");
-    ui->edtLink->setText("https://youtu.be/");
     ui->dateEdit->setDate(QDate::currentDate());
 }
 
@@ -83,10 +82,20 @@ void LessonDialog::on_btnAdd_clicked()
     close();
 }
 
-void LessonDialog::closeEvent(QCloseEvent *event)
+void LessonDialog::closeEvent(QCloseEvent *)
 {
     _date = ui->dateEdit->date();
     _name = ui->edtName->text();
     _link = ui->edtLink->text();
     _lessonInfo = ui->edtInfo->toHtml();
+}
+
+void LessonDialog::on_btnToYouTube_clicked()
+{
+    QRegExp e("([a-zA-Z0-9-_]+){11}");
+    int pos = 0;
+    while ((pos = e.indexIn(ui->edtLink->text(), pos)) != -1) {
+        pos += e.matchedLength();
+        ui->edtLink->setText("https://youtu.be/" + e.cap(0));
+    }
 }

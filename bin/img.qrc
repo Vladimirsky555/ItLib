@@ -45,5 +45,6 @@
         <file>images/sql.png</file>
         <file>images/php.png</file>
         <file>images/path.png</file>
+        <file>images/y.png</file>
     </qresource>
 </RCC>

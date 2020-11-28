@@ -34,12 +34,14 @@ private slots:
     void on_btnCancel_clicked();
     void on_btnAdd_clicked();
 
+    void on_btnToYouTube_clicked();
+
 private:
     Ui::LessonDialog *ui;
 
     // QWidget interface
 protected:
-    virtual void closeEvent(QCloseEvent *event);
+    virtual void closeEvent(QCloseEvent *);
 };
 
 #endif // LESSONDIALOG_H
