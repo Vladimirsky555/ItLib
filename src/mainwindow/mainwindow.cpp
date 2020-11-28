@@ -5,6 +5,7 @@
 #include <QUrl>
 #include <QMessageBox>
 #include <QFontDialog>
+#include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QVariantMap>
@@ -315,6 +316,7 @@ void MainWindow::on_btnFont_clicked()
 //Экспорт в JSON
 void MainWindow::ExportToJSON()
 {
+    QJsonArray textsArray;
     QJsonObject textObject;
 
     for(int i = 0; i < s->getDataCount(); i++){
@@ -329,10 +331,8 @@ void MainWindow::ExportToJSON()
         textObject["lesson_link"] = item->lessonLink();
         textObject["lesson_info"] = item->lessonInfo();
 
-        QJsonArray textsArray = currentJsonObject["list"].toArray();
         textsArray.append(textObject);
-        currentJsonObject["list"] = textsArray;
-    }
+    } 
 
     // С помощью диалогового окна получаем имя файла с абсолютным путём
        QString saveFileName = QFileDialog::getSaveFileName(this,
@@ -344,12 +344,23 @@ void MainWindow::ExportToJSON()
        // Создаём объект файла и открываем его на запись
        QFile jsonFile(saveFileName);
        if (!jsonFile.open(QIODevice::WriteOnly))
-       {
            return;
-       }
 
        // Записываем текущий объект Json в файл
-       jsonFile.write(QJsonDocument(currentJsonObject).toJson(QJsonDocument::Indented));
+//       jsonFile.write(QJsonDocument(currentJsonObject).toJson(QJsonDocument::Indented));
+
+       //Чтобы не править json-файл вручную перед каждой загрузкой на сервер
+       jsonFile.write("[");
+       for(int i = 0; i < textsArray.size(); i++)
+       {
+           jsonFile.write(QJsonDocument(textsArray.at(i).toObject()).toJson(QJsonDocument::Indented));
+
+           if(i < textsArray.size()-1){
+               jsonFile.write(",");
+           }
+       }
+       jsonFile.write("]");
+
        jsonFile.close();   // Закрываем файл
 }
 
